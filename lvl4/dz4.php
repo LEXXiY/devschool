@@ -31,7 +31,7 @@ $in_cart = parse_ini_string($ini_string, true);
 print_arr($in_cart);
 
 function print_cart($in_cart){
-	$cart = '<table><tr><td><b>Наименование</b></td><td><b>Количество (на складе)</b></td><td><b>Цена</b></td><td><b>Итого</b></td></tr>';
+	$cart = '<table border="1"><tr><td><b>Наименование</b></td><td><b>Количество (на складе)</b></td><td><b>Цена</b></td><td><b>Итого</b></td></tr>';
 	$total_goods = 0;
 	$total_cost = 0;
 
@@ -41,19 +41,23 @@ function print_cart($in_cart){
 		$cart .= '<td>' . $val['цена'] . '</td>';
 		$cart .= '<td>';
 
-		if ($key == 'игрушка детская велосипед' && stock($val['количество заказано'], $val['осталось на складе']) >= 3) {
-			$cart .= $val['цена'] / 1.3 * $val['количество заказано'];
+		if (stock($val['количество заказано'], $val['осталось на складе'])>=$val['количество заказано']) {
+			if ($key == 'игрушка детская велосипед' && stock($val['количество заказано'], $val['осталось на складе']) >= 3) {
+				$cart .= round($val['цена'] / 1.3 * $val['количество заказано']);
+			} else {
+				$cart .= round($val['цена'] / diskont($val['diskont']) * $val['количество заказано']);
+			}
 		} else {
-			$cart .= $val['цена'] / diskont($val['diskont']) * $val['количество заказано'];
+			echo '-';
 		}
 
 		$total_goods += $val['количество заказано'];
 		$total_cost += $val['количество заказано'] * $val['цена'];
 
 	}
-
-	$cart .= '<tr><td>ИТОГО:</td><td>' . count($in_cart) . ' наименования</td><td>' . $total_goods . ' товаров</td>';
-	$cart .= '<td>На сумму ' . $total_cost . '</td></tr></table>';
+	$cart .= '</table>';
+	$cart .= '<p>ИТОГО: ' . count($in_cart) . ' наименования, ' . $total_goods . ' товаров<br/>';
+	$cart .= 'На сумму ' . $total_cost . '';
 
 	return $cart;
 }
