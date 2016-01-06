@@ -1,4 +1,5 @@
 <?php
+header('Content-Type: text/html; charset=utf-8');
 /**
  * Created by PhpStorm.
  * User: Алексей
@@ -31,6 +32,14 @@ $in_cart = parse_ini_string($ini_string, true);
 
 function print_cart(){
 	global $in_cart;
+	
+	if ( array_key_exists('игрушка детская велосипед', $in_cart) && $in_cart['игрушка детская велосипед']['количество заказано'] >= 3 ) {
+		echo '<span style="color:red">АКЦИЯ!</span><br/> Поздравляем вас, купив товар "игрушка детская велосипед" количеством более 3 штук, вы получаете скидку в 30%';
+		$in_cart['игрушка детская велосипед']['diskont'] = 'diskont3';
+	} else {
+		echo 'Купив товар "игрушка детская велосипед" количеством более 3 штук вы получите скидку 30%!';
+	}
+	
 	$cart = '<table border="1"><tr>';
 	$cart .= '<td>№</td>' . '<td><b>Наименование</b></td>' . '<td><b>Цена</b></td>' . '<td><b>Скидка</b></td>';
 	$cart .= '<td><b>В заказе</b></td>' . '<td><b>На складе</b></td>' . '<td><b>Итого</b></td></tr>';
@@ -42,15 +51,13 @@ function print_cart(){
 
 		$item_price = $val['цена'];
 		$in_order = $val['количество заказано'];
-		$available = $val['осталось на складе'];
+		$in_stock = $val['осталось на складе'];
 		$diskont = get_int($val['diskont']);
-		$price = get_price( $item_price, $diskont, $in_order, $key );
+		$price = get_price( $item_price, $diskont, $in_order, $key, $in_stock );
 
 		$cart .= '<tr><td>' . ++$count . '</td>';
 
 		$cart .= '<td>' . $key . '</td>';
-
-//		if( stock( $in_order, $available ) ) {
 
 		$cart .= '<td>' . $item_price . '</td>';
 
@@ -58,22 +65,17 @@ function print_cart(){
 
 		$cart .= '<td>' . $in_order . '</td>';
 
-		$cart .= '<td>' . $available . '</td>';
+		$cart .= '<td>' . $in_stock . '</td>';
 
 		$cart .= '<td>' . $price . '</td>';
-
-
 
 		$cart .= '</tr>';
 
 		$total_goods += $in_order;
 		$total_cost += $price;
 
-//		} else {
-//			$cart .= '<td>К сожалению на складе только ' . $available . '</td><td>-</td><td>-</td></tr>';
-//		}
-
 	}
+	
 	$cart .= '</table>';
 	$cart .= '<p>ИТОГО: ' . $count . ' наименования, ' . $total_goods . ' товаров, ' . 'на сумму ' . $total_cost;
 
@@ -82,21 +84,13 @@ function print_cart(){
 
 echo print_cart();
 
+//TODO: get_profit (выгода от добора акционного товара), get_action (получать массив акционного товара и возвращать попадает ли товар под акцию или нет)
+
 /* Helpers */
 
-function stock($order, $available){
+function diskont($diskont, $key = '', $goods){
 
-	if($order<=$available) return true;
-
-	if($order>$available) return false;
-
-}
-
-function diskont($diskont, $key = '', $available){
-
-	if ($key = 'игрушка детская велосипед' && $available >= 3) return 1.3;
-
-	$diskont = get_int($diskont);
+	if ($key = 'игрушка детская велосипед' && $goods >= 3) return 1.3;
 
 	if ($diskont == 0) return 1;
 
@@ -110,9 +104,19 @@ function diskont($diskont, $key = '', $available){
 	}
 }
 
-function get_price($price, $diskont=1, $available, $name){
+function get_price($price, $diskont=1, $in_order, $name, $in_stock){
+	
+	$available = ($in_order<=$in_stock) ? $in_order : $in_stock;
+	
+	if ($available > 0) {
+		
+		$get_diskont = diskont($diskont, $name, $available);
 
-		return round($price / diskont($diskont, $name, $available) * $available, 2);
+		return round($price / $get_diskont * $available, 2);
+		
+	} else {
+		return 0;
+	}
 
 }
 
