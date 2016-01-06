@@ -28,44 +28,50 @@ diskont = diskont' . mt_rand(0, 2) . ';
 ';
 
 $in_cart = parse_ini_string($ini_string, true);
-print_arr($in_cart);
 
 function print_cart(){
 	global $in_cart;
-	$cart = '<table border="1"><tr><td><b>Наименование</b></td><td><b>Количество</b></td><td><b>Цена</b></td><td><b>Итого</b></td></tr>';
+	$cart = '<table border="1"><tr>';
+	$cart .= '<td>№</td>' . '<td><b>Наименование</b></td>' . '<td><b>Цена</b></td>' . '<td><b>Скидка</b></td>';
+	$cart .= '<td><b>В заказе</b></td>' . '<td><b>На складе</b></td>' . '<td><b>Итого</b></td></tr>';
 	static $total_goods = 0;
 	static $total_cost = 0;
 	static $count = 0;
 
 	foreach($in_cart as $key => $val) {
 
+		$item_price = $val['цена'];
+		$in_order = $val['количество заказано'];
+		$available = $val['осталось на складе'];
+		$diskont = get_int($val['diskont']);
+		$price = get_price( $item_price, $diskont, $in_order, $key );
+
+		$cart .= '<tr><td>' . ++$count . '</td>';
+
+		$cart .= '<td>' . $key . '</td>';
+
+//		if( stock( $in_order, $available ) ) {
+
+		$cart .= '<td>' . $item_price . '</td>';
+
+		$cart .= '<td>' . $diskont . '0%</td>';
+
+		$cart .= '<td>' . $in_order . '</td>';
+
+		$cart .= '<td>' . $available . '</td>';
+
+		$cart .= '<td>' . $price . '</td>';
 
 
-		$cart .= '<tr><td>' . $key . '</td>';
 
-		if( stock( $val['количество заказано'], $val['осталось на складе'] ) ) {
+		$cart .= '</tr>';
 
-			$cart .= '<td>';
+		$total_goods += $in_order;
+		$total_cost += $price;
 
-			$cart .= $val['количество заказано'];
-
-			$cart .= '</td>';
-			$cart .= '<td>' . $val['цена'] . '</td>';
-			$cart .= '<td>';
-
-			$price = get_price( $val['цена'], $val['diskont'], $val['количество заказано'], $key );
-
-			$cart .= $price;
-
-			$cart .= '</td></tr>';
-
-			$count++;
-			$total_goods += $val['количество заказано'];
-			$total_cost += $price;
-
-		} else {
-			$cart .= '<td>К сожалению на складе только ' . $val['осталось на складе']. '</td><td>-</td><td>-</td></tr>';
-		}
+//		} else {
+//			$cart .= '<td>К сожалению на складе только ' . $available . '</td><td>-</td><td>-</td></tr>';
+//		}
 
 	}
 	$cart .= '</table>';
@@ -111,11 +117,6 @@ function get_price($price, $diskont=1, $available, $name){
 }
 
 /* Library */
-function print_arr($array){
-	echo "<pre>";
-	print_r($array);
-	echo "</pre>";
-}
 
 function get_int($string){
 	$int = preg_replace("/[^0-9]/", '', $string);
