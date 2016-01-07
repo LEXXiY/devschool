@@ -29,7 +29,6 @@ diskont = diskont' . mt_rand(0, 2) . ';
 ';
 
 $in_cart = parse_ini_string($ini_string, true);
-var_dump($in_cart);
 
 function print_cart(){
 	global $in_cart;
