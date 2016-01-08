@@ -106,17 +106,18 @@ echo print_cart();
 
 function diskont($diskont, $key = '', $goods){
 
-	if ($diskont == 0) return 1;
-
 	switch ($diskont){
+		case 0:
+			return 1;
+			break;
 		case 1:
-			return 1.1;
+			return 0.9;
 			break;
 		case 2:
-			return 1.2;
+			return 0.8;
 			break;
 		case 3:
-			return 1.3;
+			return 0.7;
 			break;
 	}
 }
@@ -129,7 +130,7 @@ function get_price($price, $diskont=1, $in_order, $name, $in_stock){
 		
 		$get_diskont = diskont($diskont, $name, $available);
 
-		return array(round($price / $get_diskont * $available, 2), round($price * $available, 2));
+		return array(round($price * $get_diskont * $available, 2), round($price * $available, 2));
 		
 	} else {
 		return array('Товара нет в наличии');
