@@ -13,21 +13,37 @@ $news=  explode("\n", $news);
 
 if ( isset($_GET['id']) ) {
     $id = $_GET['id'];
-    echo $news[$id];
-} else {
-    for ($i=0;$i<count($news);$i++){
-        echo $news[$i] . '<br/>';
+    if(array_key_exists($id, $news)){
+        getNews($id);
+    } else {
+        news();
     }
+} else {
+    header("HTTP/1.0 404 Not Found");
+    echo "Страница не найдена";
 }
-
-<form method="GET">
-<input type="text" name="id" id="">
-<input type="submit" value="Показать">
-</form>
 
 // Функция вывода всего списка новостей.
 
+function news(){
+    global $news;
+    
+    echo "<h2>Свежие новости:</h2><ol>";
+    
+    for ($i=0;$i<count($news);$i++){
+        echo '<li>' . $news[$i] . '</li>';
+    }
+    
+    echo "</ol>";
+}
+
 // Функция вывода конкретной новости.
+
+function getNews($id){
+    global $news;
+    
+    echo $news[$id];
+}
 
 // Точка входа.
 // Если новость присутствует - вывести ее на сайте, иначе мы выводим весь список
@@ -36,3 +52,4 @@ if ( isset($_GET['id']) ) {
 // если параметр не был передан - выводить 404 ошибку
 // http://php.net/manual/ru/function.header.php
 
+/* Helpers */
