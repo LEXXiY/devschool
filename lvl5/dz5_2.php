@@ -15,12 +15,14 @@ $news=  explode("\n", $news);
 
 if ( isset($_POST['id']) ) {
     $id = $_POST['id'];
-    if(array_key_exists($id, $news)){
+    if(is_numeric($id) && array_key_exists($id, $news)){
         getNews($id);
+    } else {
+        echo "Новости с таким id не существует";
     }
 } else {
     header("HTTP/1.0 404 Not Found");
-    echo "Страница не найдена, воспользуйтесь формой поиска, введите от 1 до 9<br/>"; ?>
+    echo "Страница не найдена, воспользуйтесь формой поиска, введите от 0 до 9<br/>"; ?>
     
     <form method="POST">
         <input type="text" name="id" id="">
