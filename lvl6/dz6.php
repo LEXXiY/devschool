@@ -41,12 +41,7 @@ if( isset($_GET['edit']) && !isset($_GET['action']) ){
     $title = ($_SESSION['ads'][$id]['title']) ? $_SESSION['ads'][$id]['title'] : '';
     $description = ($_SESSION['ads'][$id]['description']) ? $_SESSION['ads'][$id]['description'] : '';
     $price = ($_SESSION['ads'][$id]['price']) ? $_SESSION['ads'][$id]['price'] : '';
-    
 }
-
-echo '<pre>';
-print_r($_SESSION);
-echo '</pre>';
 
 $cities = array(
     '641780'=>'Новосибирск',
