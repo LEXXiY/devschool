@@ -12,7 +12,24 @@ if(isset($_GET['del'])){
     unset($_SESSION['ads'][$_GET['del']]);
 }
 
+if(isset($_GET['edit'])){
+    $id = $_GET['edit'];
+    
+    $forma = ($_SESSION['ads'][$id]['forma']) ? $_SESSION['ads'][$id]['forma'] : '';
+    $seller_name = ($_SESSION['ads'][$id]['seller_name']) ? $_SESSION['ads'][$id]['seller_name'] : '';
+    $email = ($_SESSION['ads'][$id]['email']) ? $_SESSION['ads'][$id]['email'] : '';
+    $allow_mails = ( isset($_SESSION['ads'][$id]['allow_mails']) ) ? $_SESSION['ads'][$id]['allow_mails'] : '';
+    $phone = ($_SESSION['ads'][$id]['phone']) ? $_SESSION['ads'][$id]['phone'] : '';
+    $location_id = ($_SESSION['ads'][$id]['location_id']) ? $_SESSION['ads'][$id]['location_id'] : '';
+    $category_id = ($_SESSION['ads'][$id]['category_id']) ? $_SESSION['ads'][$id]['category_id'] : '';
+    $title = ($_SESSION['ads'][$id]['title']) ? $_SESSION['ads'][$id]['title'] : '';
+    $description = ($_SESSION['ads'][$id]['description']) ? $_SESSION['ads'][$id]['description'] : '';
+    $price = ($_SESSION['ads'][$id]['price']) ? $_SESSION['ads'][$id]['price'] : '';
+    
+}
+echo '<pre>';
 print_r($_SESSION);
+echo '</pre>';
 
 $cities = array(
     '641780'=>'Новосибирск',
@@ -104,23 +121,28 @@ $categories = array(
     )
 );
 
-function all_cities($cities){
+function all_cities($city_id=''){
+    global $cities;
     foreach ($cities as $id=>$city){
-        echo '<option data-coords=",," value="' . $id . '">' . $city . '</option>';
+        if($city_id == $id) $selected = 'selected=""';
+        echo '<option data-coords=",,"' . $selected . ' value="' . $id . '">' . $city . '</option>';
     }
 }
 
-function all_categories($categories){
+function all_categories($category_id=''){
+    global $categories;
     foreach ($categories as $name=>$block_category){
         echo '<optgroup label="' . $name . '">';
 
         foreach ($block_category as $id=>$category){
-            echo '<option value="' . $id . '">' . $category . '</option>';
+             if($category_id == $id) $selected = 'selected=""';
+            echo '<option'. $selected .' value="' . $id . '">' . $category . '</option>';
         }
 
         echo '</optgroup>';
     }
 }
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -134,37 +156,36 @@ function all_categories($categories){
 
 <div class="container col-sm-4 col-sm-offset-4">
     <form method="post" class="form-horizontal">
-
         <div class="form-group">
+
             <label class="col-sm-5 col-sm-offset-1 radio-inline">
-                <input type="radio" checked="" value="1" name="private">Частное лицо
+                <input type="radio" <?php if(isset($forma)===1) echo 'checked=""'; ?> value="1" name="forma">Частное лицо
             </label>
             <label class="col-sm-5  radio-inline">
-                <input type="radio" value="0" name="private">Компания
+                <input type="radio" <?php if(isset($forma)===0) echo 'checked=""'; ?> value="0" name="forma">Компания
             </label>
         </div>
+        
         <div class="form-group">
             <label for="fld_seller_name" class="form-label col-sm-5"><b id="your-name">Ваше имя</b></label>
-            <input type="text" maxlength="40" class="col-sm-7" value="" name="seller_name" id="fld_seller_name">
+            <input type="text" maxlength="40" class="col-sm-7" value="<?php $seller_name; ?>" name="seller_name" id="fld_seller_name">
         </div>
-        <div style="display: none;" id="your-manager" class="form-group">
-            <label for="fld_manager" class="form-label col-sm-5"><b>Контактное лицо</b></label>
-            <input type="text" class="col-sm-7" maxlength="40" value="" name="manager" id="fld_manager">
-            <em class="f_r_g">&nbsp;&nbsp;необязательно</em>
-        </div>
+
         <div class="form-group">
             <label for="fld_email" class="form-label col-sm-5">Электронная почта</label>
-            <input type="text" class="col-sm-7" value="" name="email" id="fld_email">
+            <input type="text" class="col-sm-7" value="<?php $email; ?>" name="email" id="fld_email">
         </div>
+        
         <div class="form-group">
             <label class="form-label-checkbox col-sm-12" for="allow_mails">
-                <input type="checkbox" value="1" name="allow_mails" id="allow_mails" class="form-input-checkbox">
+                <input type="checkbox" value="<?php if(isset($allow_mails)) $allow_mails; ?>" name="allow_mails" id="allow_mails" class="form-input-checkbox">
                 <span class="form-text-checkbox">Я не хочу получать вопросы по объявлению по e-mail</span>
             </label>
         </div>
+        
         <div class="form-group">
             <label id="fld_phone_label" for="fld_phone" class="form-label col-sm-5">Номер телефона</label>
-            <input type="text" class="col-sm-7" value="" name="phone" id="fld_phone">
+            <input type="text" class="col-sm-7" value="<?php $phone; ?>" name="phone" id="fld_phone">
         </div>
 
         <div id="f_location_id" class="form-group form-row-required">
@@ -172,30 +193,12 @@ function all_categories($categories){
             <select title="Выберите Ваш город" name="location_id" id="region" class="form-input-select col-sm-7">
                 <option value="">-- Выберите город --</option>
                 <option class="opt-group" disabled="disabled">-- Города --</option>
-                <option selected="" data-coords=",," value="641780">Новосибирск</option>
+
                 <?php
-                    all_cities($cities);
+                    all_cities($location_id);
                 ?>
+                
                 <option id="select-region" value="0">Выбрать другой...</option>
-            </select>
-        </div>
-        <div id="f_metro_id" class="form-group">
-            <label for="subway" class="form-label col-sm-5">Метро</label>
-            <select title="Выберите станцию метро" name="metro_id" id="fld_metro_id" class="form-input-select col-sm-7">
-                <option value="">-- Выберите станцию метро --</option>
-                <option value="2028">Берёзовая роща</option>
-                <option value="2018">Гагаринская</option>
-                <option value="2017">Заельцовская</option>
-                <option value="2029">Золотая Нива</option>
-                <option value="2019">Красный проспект</option>
-                <option value="2027">Маршала Покрышкина</option>
-                <option value="2021">Октябрьская</option>
-                <option value="2025">Площадь Гарина-Михайловского</option>
-                <option value="2020">Площадь Ленина</option>
-                <option value="2024">Площадь Маркса</option>
-                <option value="2022">Речной вокзал</option>
-                <option value="2026">Сибирская</option>
-                <option value="2023">Студенческая</option>
             </select>
         </div>
 
@@ -211,24 +214,19 @@ function all_categories($categories){
 
         <div id="f_title" class="form-group f_title">
             <label for="fld_title" class="form-label">Название объявления</label>
-            <input type="text" maxlength="50" class="form-control" value="" name="title" id="fld_title">
+            <input type="text" maxlength="50" class="form-control" value="<?php $title; ?>" name="title" id="fld_title">
         </div>
+        
         <div class="form-group">
             <label for="fld_description" class="form-label" id="js-description-label">Описание объявления</label>
-            <textarea maxlength="3000" name="description" id="fld_description" class="form-control"></textarea>
+            <textarea maxlength="3000" name="description" id="fld_description" class="form-control"><?php $description; ?></textarea>
         </div>
+        
         <div id="price_rw" class="form-group rl">
             <label id="price_lbl" for="fld_price" class="form-label">Цена</label>
-            <input type="text" maxlength="9" class="form-input-text-short" value="0" name="price" id="fld_price">&nbsp;<span id="fld_price_title">руб.</span>
-            <a class="link_plain grey right_price c-2 icon-link" id="js-price-link" href="/info/pravilnye_ceny?plain">
-                <span>Правильно указывайте цену</span>
-            </a>
+            <input type="text" maxlength="9" class="form-input-text-short" value="<?php $price; ?>" name="price" id="fld_price">&nbsp;<span id="fld_price_title">руб.</span>
         </div>
-
-        <div id="f_images" class="form-group">
-            <label for="fld_images" class="form-label"><span id="js-photo-label">Фотографии</span><span class="js-photo-count" style="display: none;"></span></label>
-            <input type="file" value="image" id="fld_images" name="image" accept="image/*" class="form-input-file"> <span style="line-height:22px;color: gray; display: none;" id="fld_images_toomuch">Вы добавили максимально возможное количество фотографий</span> <span style="display: none;" id="fld_images_overhead"></span>
-        </div>
+        
         <div class="col-sm-12">
                 <button type="submit" class="btn btn-success">Отправить</button>
         </div>
