@@ -34,7 +34,7 @@ if( !empty($_POST) ) {
 }
 
 if(!isset($formParam)){
-    $edit_form = prepareAd();
+    $formParam = prepareAd();
 }
 
 ?>
@@ -53,33 +53,33 @@ if(!isset($formParam)){
         <div class="form-group">
 
             <label class="col-sm-5 col-sm-offset-1 radio-inline">
-                <input type="radio" <?php if($edit_form['forma'] && $edit_form['forma'] === 1) echo 'checked="checked"'; ?> value="1" name="forma">Частное лицо
+                <input type="radio" <?php if($formParam['forma'] === 1) echo 'checked="checked"'; ?> value="1" name="forma">Частное лицо
             </label>
             <label class="col-sm-5  radio-inline">
-                <input type="radio" <?php if($edit_form['forma'] && $edit_form['forma'] === 0) echo 'checked="checked"'; ?> value="0" name="forma">Компания
+                <input type="radio" <?php if($formParam['forma'] === 0) echo 'checked="checked"'; ?> value="0" name="forma">Компания
             </label>
         </div>
         
         <div class="form-group">
             <label for="fld_seller_name" class="form-label col-sm-5"><b id="your-name">Ваше имя</b></label>
-            <input type="text" maxlength="40" class="col-sm-7" value="<?php if($edit_form['seller_name']) echo $edit_form['seller_name']; ?>" name="seller_name" id="fld_seller_name">
+            <input type="text" maxlength="40" class="col-sm-7" value="<?php echo $formParam['seller_name']; ?>" name="seller_name" id="fld_seller_name">
         </div>
 
         <div class="form-group">
             <label for="fld_email" class="form-label col-sm-5">Электронная почта</label>
-            <input type="text" class="col-sm-7" value="<?php if($edit_form['email'])  echo $edit_form['email']; ?>" name="email" id="fld_email">
+            <input type="text" class="col-sm-7" value="<?php echo $formParam['email']; ?>" name="email" id="fld_email">
         </div>
         
         <div class="form-group">
             <label class="col-sm-12" for="allow_mails">
-                <input type="checkbox" name="newsletter" value="1" <?php if($edit_form['newsletter'] && $edit_form['newsletter'] === 1) echo 'checked="checked"'; ?> id="allow_mails">
+                <input type="checkbox" name="newsletter" value="1" <?php if($formParam['newsletter'] === 1) echo 'checked="checked"'; ?> id="allow_mails">
                 <span>Я не хочу получать вопросы по объявлению по e-mail</span>
             </label>
         </div>
         
         <div class="form-group">
             <label for="fld_phone" class="form-label col-sm-5">Номер телефона</label>
-            <input type="text" class="col-sm-7" value="<?php if($edit_form['phone']) echo $edit_form['phone']; ?>" name="phone" id="fld_phone">
+            <input type="text" class="col-sm-7" value="<?php echo $formParam['phone']; ?>" name="phone" id="fld_phone">
         </div>
 
         <div id="f_location_id" class="form-group">
@@ -108,17 +108,17 @@ if(!isset($formParam)){
 
         <div id="f_title" class="form-group f_title">
             <label for="fld_title" class="form-label">Название объявления</label>
-            <input type="text" maxlength="50" class="form-control" value="<?php if($edit_form['title']) echo $edit_form['title']; ?>" name="title" id="fld_title">
+            <input type="text" maxlength="50" class="form-control" value="<?php echo $formParam['title']; ?>" name="title" id="fld_title">
         </div>
         
         <div class="form-group">
             <label for="fld_description" class="form-label" id="js-description-label">Описание объявления</label>
-            <textarea maxlength="3000" name="description" id="fld_description" class="form-control"><?php if($edit_form['description']) echo $edit_form['description']; ?></textarea>
+            <textarea maxlength="3000" name="description" id="fld_description" class="form-control"><?php echo $formParam['description']; ?></textarea>
         </div>
         
         <div id="price_rw" class="form-group rl">
             <label id="price_lbl" for="fld_price" class="form-label">Цена</label>
-            <input type="text" maxlength="9" class="form-input-text-short" value="<?php if($edit_form['price']) echo $edit_form['price']; ?>" name="price" id="fld_price">&nbsp;<span id="fld_price_title">руб.</span>
+            <input type="text" maxlength="9" class="form-input-text-short" value="<?php echo $formParam['price']; ?>" name="price" id="fld_price">&nbsp;<span id="fld_price_title">руб.</span>
         </div>
         <input type="hidden" name="id" value="<?php if(isset($_GET['edit'])) echo $_GET['edit']?>"/>
         <div class="col-sm-12">
