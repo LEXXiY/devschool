@@ -1,33 +1,35 @@
 <?php
-require_once('lib.php');
+require_once('libq.php');
 require_once('data.php');
 
 error_reporting(E_ERROR | E_NOTICE | E_PARSE | E_WARNING);
 ini_set('display_errors', 1);
 
+print_r($_COOKIE);
+
 if( !empty($_POST) ) {
     
     $id = (isset($_POST['id'])) ? $_POST['id'] : '';
     
-    if( isset($_GET['action']) && $_GET['action']=='update' && isset($_COOKIE["ads[".$id."]"]) ){
+    if( isset($_GET['action']) && $_GET['action']=='update' && isset($data["ads"][$id]) ){
         
-        setcookie("ads[".$id."]", serialize(prepareAd($_POST)), time());
+        $_COOKIE["ads"][$id] = serialize(prepareAd($_POST));
 
     } else {
         
-        setcookie("ads[]", prepareAd($_POST), time());
+        setcookie("ads", serialize(prepareAd($_POST)), time()+3600);
         
     }
     
 } elseif( isset($_GET['del']) ){
     
-    setcookie("ads[".$_GET['del']."]", "", time()-3600);
+    unset($_COOKIE["ads"][$id]);
     
 } elseif( isset($_GET['edit']) && !isset($_GET['action']) ){
     
     $id = $_GET['edit'];
    
-    $formParam = prepareAd($_COOKIE["ads[".$id."]"]);
+    $formParam = prepareAd($_COOKIE["ads"][$id]);
 
 }
 
@@ -36,4 +38,4 @@ if(!isset($formParam)){
 }
 
 
-require_once('form.php');
+require_once('formq.php');
