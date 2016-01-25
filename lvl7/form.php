@@ -49,7 +49,7 @@
                 <option class="opt-group" disabled="disabled">-- Города --</option>
 
                 <?php
-                    all_cities($location_id);
+                    all_cities($formParam['location_id']);
                 ?>
                 
                 <option id="select-region" value="0">Выбрать другой...</option>
@@ -61,7 +61,7 @@
             <select title="Выберите категорию объявления" name="category_id" id="fld_category_id" class="form-input-select col-sm-7">
                 <option value="">-- Выберите категорию --</option>
                 <?php
-                    all_categories($category_id);
+                    all_categories($formParam['category_id']);
                 ?>
             </select>
         </div>
@@ -89,7 +89,7 @@
     <div class="row">
        
        <?php
-            showAds();
+            showAds($data);
         ?>
         
     </div>
