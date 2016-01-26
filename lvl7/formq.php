@@ -89,7 +89,7 @@
     <div class="row">
        
        <?php
-            showAds($_COOKIE);
+            showAds($data);
         ?>
         
     </div>

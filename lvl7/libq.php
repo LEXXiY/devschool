@@ -38,40 +38,14 @@ function prepareAd($data = null){
 }
 
 function showAds($arr=null){
-    $arr = unserialize($arr);
     if($arr){
         echo '<h2>Все объявления</h2>';
         if(!empty($arr)){
-            foreach ($arr['ads'] as $value){
+            foreach ($arr as $id=>$value){
                 echo '<a style="border-bottom:1px solid orange" href="?edit='. $id . '">' . $value['title'] . '</a>|' . $value['price'] . '|' . $value['seller_name'] . '| <a href="?del=' . $id . '">Удалить</a><br/>';
             }
         }
     } else {
         return false;
-    }
-}
-
-function readFromFile($filename){
-    
-    // if (!$handle = ) {echo "Не могу открыть файл '$filename'"; exit;}
-    
-    $content = unserialize(file_get_contents($filename));
-    
-    return $content;
-    
-}
-
-function saveFile($filename, $array){
-    
-    if (empty($array)) return;
-    
-    // if (!$handle = fopen($filename, 'w+')) {echo "Не могу открыть файл '$filename'"; exit;}
-    
-    if( file_put_contents( $filename, serialize($array) ) === FALSE ) 
-    {
-        echo "Не могу записать в файл '$filename'"; 
-        exit;
-    } else {
-        return true;
     }
 }
