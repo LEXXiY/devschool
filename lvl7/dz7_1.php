@@ -9,7 +9,7 @@ $data = (!empty($_COOKIE['ads'])) ? unserialize($_COOKIE['ads']) : [];
 
 if( !empty($_POST) ) {
     
-    $id = (isset($_POST['id'])) ? $_POST['id'] : '';
+    $id = (isset($_POST['id']) && is_numeric($_POST['id'])) ? $_POST['id'] : '';
     
     if( isset($_GET['action']) && $_GET['action']=='update' && isset($data[$id]) ){
         
@@ -21,13 +21,15 @@ if( !empty($_POST) ) {
         
     }
     
-} elseif( isset($_GET['del']) ){
-    
-    unset($data[$_GET['del']]);
+} elseif( isset($_GET['del']) && isset($data[$_GET['del']]) ){
+
+    $id = (int)$_GET['del'];
+
+    unset($data[$id]);
     
 } elseif( isset($_GET['edit']) && !isset($_GET['action']) ){
-    
-    $id = $_GET['edit'];
+
+    $id = (int)$_GET['edit'];
    
     $formParam = prepareAd($data[$id]);
 
