@@ -5,9 +5,7 @@ require_once('data.php');
 error_reporting(E_ERROR | E_NOTICE | E_PARSE | E_WARNING);
 ini_set('display_errors', 1);
 
-$data = (isset($_COOKIE['ads'])) ? unserialize($_COOKIE['ads']) : [];
-
-print_r($data);
+$data = (!empty($_COOKIE['ads'])) ? unserialize($_COOKIE['ads']) : '';
 
 if( !empty($_POST) ) {
     
@@ -35,7 +33,7 @@ if( !empty($_POST) ) {
 
 }
 
-setcookie("ads", serialize(prepareAd($data)), time()+3600);
+if(!empty($data)) setcookie("ads", serialize(prepareAd($data)), time()+3600);
 
 if(!isset($formParam)){
     $formParam = prepareAd();
