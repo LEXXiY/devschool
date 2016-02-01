@@ -59,5 +59,7 @@ if(!isset($formParam)){
 
 $smarty->assign("cities", $cities);
 $smarty->assign("categories", $all_category);
+$smarty->assign("formParam", $formParam);
+
 
 $smarty->display('index.tpl'); 
