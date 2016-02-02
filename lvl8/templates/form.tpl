@@ -50,7 +50,7 @@
 
                 <select title="Выберите категорию объявления" name="category_id" id="fld_category_id" class="form-input-select col-sm-7">
                     <option value="">-- Выберите категорию --</option>
-                    {html_options options=$all_category selected=$current_category}
+                    {html_options options=$categories selected=$current_category}
                 </select>
             </div>
 
