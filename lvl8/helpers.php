@@ -37,18 +37,18 @@ function prepareAd($data = null){
     );
 }
 
-function showAds($arr=null){
-    if($arr){
-        echo '<h2>Все объявления</h2>';
-        if(!empty($arr)){
-            foreach ($arr as $id=>$value){
-                echo '<a style="border-bottom:1px solid orange" href="?edit='. $id . '">' . $value['title'] . '</a>|' . $value['price'] . '|' . $value['seller_name'] . '| <a href="?del=' . $id . '">Удалить</a><br/>';
-            }
-        }
-    } else {
-        return false;
-    }
-}
+//function showAds($arr=null){
+//    if($arr){
+//        echo '<h2>Все объявления</h2>';
+//        if(!empty($arr)){
+//            foreach ($arr as $id=>$value){
+//                echo '<a style="border-bottom:1px solid orange" href="?edit='. $id . '">' . $value['title'] . '</a>|' . $value['price'] . '|' . $value['seller_name'] . '| <a href="?del=' . $id . '">Удалить</a><br/>';
+//            }
+//        }
+//    } else {
+//        return false;
+//    }
+//}
 
 function readFromFile($filename){
     
@@ -62,6 +62,8 @@ function readFromFile($filename){
 
 function saveFile($filename, $array){
     
+    if(!file_exists($filename)) file_put_contents($filename,"");
+
     if (empty($array)) return;
     
     // if (!$handle = fopen($filename, 'w+')) {echo "Не могу открыть файл '$filename'"; exit;}

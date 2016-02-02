@@ -1,0 +1,1 @@
+a:1:{i:1;a:11:{s:5:"forma";s:1:"0";s:11:"seller_name";s:14:"Алексей";s:5:"email";s:16:"a.evseev@acig.ru";s:10:"newsletter";s:1:"1";s:5:"phone";s:9:"908098209";s:11:"location_id";s:6:"641790";s:11:"category_id";s:2:"25";s:5:"title";s:23:"Продам гараж";s:11:"description";s:12:"Продам";s:5:"price";s:9:"444462342";s:2:"id";s:1:"1";}}

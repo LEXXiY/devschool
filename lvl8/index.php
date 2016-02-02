@@ -9,6 +9,9 @@ require './libs/Smarty.class.php';
 require './fields.php';
 require './helpers.php';
 
+error_reporting(E_ERROR | E_NOTICE | E_PARSE | E_WARNING);
+ini_set('display_errors', 1);
+
 $smarty = new Smarty();
 
 //$smarty->force_compile = true;
@@ -57,9 +60,12 @@ if(!isset($formParam)){
     $formParam = prepareAd();
 }
 
+saveFile('ads.txt', $data);
+
 $smarty->assign("cities", $cities);
 $smarty->assign("categories", $all_category);
 $smarty->assign("formParam", $formParam);
+$smarty->assign("data", $data);
 
 
 $smarty->display('index.tpl'); 

@@ -40,7 +40,7 @@
                 <select title="Выберите Ваш город" name="location_id" id="region" class="form-input-select col-sm-7">
                     <option value="">-- Выберите город --</option>
                     <option class="opt-group" disabled="disabled">-- Города --</option>
-                    {html_options options=$cities selected=$current_city}
+                    {html_options options=$cities selected=$formParam.location_id}
                     <option id="select-region" value="0">Выбрать другой...</option>
                 </select>
             </div>
@@ -50,7 +50,7 @@
 
                 <select title="Выберите категорию объявления" name="category_id" id="fld_category_id" class="form-input-select col-sm-7">
                     <option value="">-- Выберите категорию --</option>
-                    {html_options options=$categories selected=$current_category}
+                    {html_options options=$categories selected=$formParam.category_id}
                 </select>
             </div>
 
@@ -68,11 +68,10 @@
                 <label id="price_lbl" for="fld_price" class="form-label">Цена</label>
                 <input type="text" maxlength="9" class="form-input-text-short" value="{$formParam.price}" name="price" id="fld_price">&nbsp;<span id="fld_price_title">руб.</span>
             </div>
-            <input type="hidden" name="id" value="{if isset($smarty.get.id)}{$smarty.get.id}{/if}"/>
+            <input type="hidden" name="id" value="{if isset($smarty.get.edit)}{$smarty.get.edit}{/if}"/>
             <div class="col-sm-12">
                 <button type="submit" class="btn btn-success">Отправить</button>
             </div>
 
         </form>
     </div>
-</div>
