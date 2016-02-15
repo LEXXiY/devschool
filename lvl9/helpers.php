@@ -37,44 +37,65 @@ function prepareAd($data = null){
     );
 }
 
-//function showAds($arr=null){
-//    if($arr){
-//        echo '<h2>Все объявления</h2>';
-//        if(!empty($arr)){
-//            foreach ($arr as $id=>$value){
-//                echo '<a style="border-bottom:1px solid orange" href="?edit='. $id . '">' . $value['title'] . '</a>|' . $value['price'] . '|' . $value['seller_name'] . '| <a href="?del=' . $id . '">Удалить</a><br/>';
-//            }
-//        }
-//    } else {
-//        return false;
-//    }
-//}
+// function readData($db){
+    
+//     $result = $db->query("SELECT * FROM `cities`");
+    
+//     $result->fetch_assoc();
+    
+//     return $result;
+    
+// }
 
-function readFromFile($filename){
+// function saveData($array, $db){
     
-    // if (!$handle = ) {echo "Не могу открыть файл '$filename'"; exit;}
+//     if (empty($array)) return;
     
-    $content = unserialize(file_get_contents($filename));
+//     $values = implode(',', $array);
     
-    return $content;
+//     $sql = "INSERT INTO `ads` VALUES ($values)";
+    
+//     $db->query($sql);
+    
+// }
+
+function insertToDb($arr, $db){
+    
+    $values = implode(', ', $arr);
+    
+    $sql = "INSERT INTO ads (`id`, `forma`, `seller_name`, `email`, `newsletter`, `phone`, `location_id`, `category_id`, `title`, `description`, `price`) VALUES (NULL, $values)";
+    
+    $result = $db->query($sql);
+    
+    return true;
+}
+
+function selectFromDb($id = NULL, &$db){
+    
+    global $db;
+    
+    $sql = "SELECT * FROM `ads` LIMIT 10";
+    
+    $db->query($sql);
+    
+    return true;
+}
+
+function updateInDb($id){
     
 }
 
-function saveData($array){
+function deleteFromDb($id){
     
-    mysqli()
+    global $db;
     
-    if(!file_exists($filename)) file_put_contents($filename,"");
-
-    if (empty($array)) return;
+    if(is_numeric($id)){
     
-    // if (!$handle = fopen($filename, 'w+')) {echo "Не могу открыть файл '$filename'"; exit;}
-    
-    if( file_put_contents( $filename, serialize($array) ) === FALSE ) 
-    {
-        echo "Не могу записать в файл '$filename'"; 
-        exit;
-    } else {
+        $sql = "DELETE FROM `ads` WHERE id=$id";
+        
+        $db->query($sql);
+        
         return true;
+    
     }
 }

@@ -1,6 +1,6 @@
 <?php
 /**
- * Example Application
+ * Board system like avito.ru
  *
  * @package Example-application
  */
@@ -28,7 +28,7 @@ foreach($categories as $group=>$single_cat){
     $all_category[$group] = $single_cat;
 }
 
-$data = mysqli();
+// $data = readData($db);
 
 if( !empty($_POST) ) {
 
@@ -40,19 +40,22 @@ if( !empty($_POST) ) {
 
     } else {
 
-        $data[] = $_POST;
+        $data = prepareAd($_POST);
+        insertToDb($data, $db);
 
     }
 
 } elseif( isset($_GET['del']) ){
 
-    unset($data[$_GET['del']]);
+    deleteFromDb($_GET['del']);
 
 } elseif( isset($_GET['edit']) && !isset($_GET['action']) ){
 
     $id = $_GET['edit'];
+    
+    $data = selectFromDb($id);
 
-    $formParam = prepareAd($data[$id]);
+    $formParam = prepareAd($data);
 
 }
 
@@ -60,12 +63,12 @@ if(!isset($formParam)){
     $formParam = prepareAd();
 }
 
-saveData($data);
+// saveData($data, $db);
 
 $smarty->assign("cities", $cities);
-$smarty->assign("categories", $all_category);
+$smarty->assign("categories", $all_category); // assoc array group => array
 $smarty->assign("formParam", $formParam);
-$smarty->assign("data", $data);
+// $smarty->assign("data", $data);
 
 
 $smarty->display('index.tpl'); 

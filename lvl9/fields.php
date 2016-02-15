@@ -1,4 +1,10 @@
 <?php
+
+require_once './connect.php';
+require_once './mysql.php';
+
+$helpers = new MysqlHelpers;
+
 $cities = array(
     '641780'=>'Новосибирск',
     '641490'=>'Барабинск',
@@ -88,3 +94,11 @@ $categories = array(
         '40'=>'Оборудование для бизнеса',
     )
 );
+
+// if ($db->query("SHOW TABLES LIKE 'cities'") <= 0 && $helpers->isEmpty('cities')) {
+//     foreach ($cities as $id=>$city){
+//         $query .= "($id, $city),";
+//     }
+    
+//     $db->query("INSERT INTO `cities` (city_id, city) VALUES $query");
+// }
