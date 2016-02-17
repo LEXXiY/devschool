@@ -13,8 +13,8 @@
 		<div class="row">
 			<h2>Все объявления:</h2>
 			<ul>
-			{foreach from=$allads item=i}
-				<li><a style="border-bottom:1px solid orange" href="?edit={$i.id}">{$i.title}</a>|{$i.price}|{$i.seller_name}|<a href="?del={$i.id}">Удалить</a></li>
+			{foreach from=$allads key=id item=i}
+				<li><a style="border-bottom:1px solid orange" href="?edit={$id}">{$i.title}</a>|{$i.price}|{$i.seller_name}|<a href="?del={$id}">Удалить</a></li>
 			{/foreach}
 			</ul>
 		</div>

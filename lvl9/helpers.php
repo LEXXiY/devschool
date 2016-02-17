@@ -85,7 +85,11 @@ function selectAll($db){
     
     $result = $db->query($sql);
     
-    return $result->fetch_assoc();
+    while ($row = $result->fetch_assoc()){
+        $arr[$row['id']]=$row;
+    }
+    
+    return $arr;
 }
 
 // function updateInDb($id){

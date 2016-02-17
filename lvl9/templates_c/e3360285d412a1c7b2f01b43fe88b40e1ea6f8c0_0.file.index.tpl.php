@@ -1,17 +1,17 @@
 <?php
-/* Smarty version 3.1.30-dev/28, created on 2016-02-17 11:22:20
+/* Smarty version 3.1.30-dev/28, created on 2016-02-17 18:44:54
   from "/home/ubuntu/workspace/lvl9/templates/index.tpl" */
 
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.30-dev/28',
-  'unifunc' => 'content_56c457ec5aff12_91966597',
+  'unifunc' => 'content_56c4bfa62e9f09_51233351',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'e3360285d412a1c7b2f01b43fe88b40e1ea6f8c0' => 
     array (
       0 => '/home/ubuntu/workspace/lvl9/templates/index.tpl',
-      1 => 1455654646,
+      1 => 1455734151,
       2 => 'file',
     ),
   ),
@@ -20,8 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
     'file:form.tpl' => 1,
   ),
 ),false)) {
-function content_56c457ec5aff12_91966597 ($_smarty_tpl) {
-if (!is_callable('smarty_modifier_debug_print_var')) require_once '/home/ubuntu/workspace/lvl9/libs/plugins/modifier.debug_print_var.php';
+function content_56c4bfa62e9f09_51233351 ($_smarty_tpl) {
 ?>
 <!doctype html>
 <html lang="en">
@@ -40,19 +39,17 @@ if (!is_callable('smarty_modifier_debug_print_var')) require_once '/home/ubuntu/
 		<div class="row">
 			<h2>Все объявления:</h2>
 			<ul>
-			<?php echo smarty_modifier_debug_print_var($_smarty_tpl->tpl_vars['allads']->value);?>
-	
 			<?php
-$_from = $_smarty_tpl->smarty->ext->_foreach->init($_smarty_tpl, $_smarty_tpl->tpl_vars['allads']->value, 'i');
-foreach ($_from as $_smarty_tpl->tpl_vars['i']->value) {
+$_from = $_smarty_tpl->smarty->ext->_foreach->init($_smarty_tpl, $_smarty_tpl->tpl_vars['allads']->value, 'i', false, 'id');
+foreach ($_from as $_smarty_tpl->tpl_vars['id']->value => $_smarty_tpl->tpl_vars['i']->value) {
 $_smarty_tpl->tpl_vars['i']->_loop = true;
 $__foreach_i_0_saved = $_smarty_tpl->tpl_vars['i'];
 ?>
-				<li><a style="border-bottom:1px solid orange" href="?edit=<?php echo $_smarty_tpl->tpl_vars['i']->value['id'];?>
+				<li><a style="border-bottom:1px solid orange" href="?edit=<?php echo $_smarty_tpl->tpl_vars['id']->value;?>
 "><?php echo $_smarty_tpl->tpl_vars['i']->value['title'];?>
 </a>|<?php echo $_smarty_tpl->tpl_vars['i']->value['price'];?>
 |<?php echo $_smarty_tpl->tpl_vars['i']->value['seller_name'];?>
-|<a href="?del=<?php echo $_smarty_tpl->tpl_vars['i']->value['id'];?>
+|<a href="?del=<?php echo $_smarty_tpl->tpl_vars['id']->value;?>
 ">Удалить</a></li>
 			<?php
 $_smarty_tpl->tpl_vars['i'] = $__foreach_i_0_saved;

@@ -64,6 +64,10 @@ if(!isset($formParam)){
 
 $ads = selectAll($db);
 
+// for ($i=0;$i<count($ads);$i++) {
+//     $allads[array_shift($ads)]=$ads;
+// }
+
 // saveData($data, $db);
 
 $smarty->assign("cities", $cities);
