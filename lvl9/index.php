@@ -14,7 +14,7 @@ ini_set('display_errors', 1);
 
 $smarty = new Smarty();
 
-//$smarty->force_compile = true;
+// $smarty->force_compile = true;
 $smarty->debugging = true;
 
 $smarty->template_dir = './templates/';
@@ -47,28 +47,29 @@ if( !empty($_POST) ) {
 
 } elseif( isset($_GET['del']) ){
 
-    deleteFromDb($_GET['del']);
+    deleteFromDb($_GET['del'], $db);
 
 } elseif( isset($_GET['edit']) && !isset($_GET['action']) ){
-
-    $id = $_GET['edit'];
     
-    $data = selectFromDb($id);
+    // $data = selectById($_GET['edit'], $db);
 
-    $formParam = prepareAd($data);
+    // $formParam = prepareAd($data);
 
 }
 
 if(!isset($formParam)){
+    
     $formParam = prepareAd();
 }
+
+$ads = selectAll($db);
 
 // saveData($data, $db);
 
 $smarty->assign("cities", $cities);
 $smarty->assign("categories", $all_category); // assoc array group => array
 $smarty->assign("formParam", $formParam);
-// $smarty->assign("data", $data);
+$smarty->assign("allads", $ads);
 
 
 $smarty->display('index.tpl'); 

@@ -61,41 +61,48 @@ function prepareAd($data = null){
 
 function insertToDb($arr, $db){
     
-    $values = implode(', ', $arr);
+    $values = implode('","', $arr);
     
-    $sql = "INSERT INTO ads (`id`, `forma`, `seller_name`, `email`, `newsletter`, `phone`, `location_id`, `category_id`, `title`, `description`, `price`) VALUES (NULL, $values)";
+    $sql = "INSERT INTO ads (`forma`, `seller_name`, `email`, `newsletter`, `phone`, `location_id`, `category_id`, `title`, `description`, `price`) VALUES (\"".$values."\")";
     
     $result = $db->query($sql);
     
     return true;
 }
 
-function selectFromDb($id = NULL, &$db){
+// function selectById($id = NULL, $db){
     
-    global $db;
+//     $sql = "SELECT * FROM `ads` WHERE id=$id";
     
-    $sql = "SELECT * FROM `ads` LIMIT 10";
+//     $result = $db->query($sql);
     
-    $db->query($sql);
+//     return $result->fetch_assoc();
+// }
+
+function selectAll($db){
     
-    return true;
+    $sql = "SELECT * FROM `ads`";
+    
+    $result = $db->query($sql);
+    
+    return $result->fetch_assoc();
 }
 
-function updateInDb($id){
+// function updateInDb($id){
     
-}
+// }
 
-function deleteFromDb($id){
+// function deleteFromDb($id){
     
-    global $db;
+//     global $db;
     
-    if(is_numeric($id)){
+//     if(is_numeric($id)){
     
-        $sql = "DELETE FROM `ads` WHERE id=$id";
+//         $sql = "DELETE FROM `ads` WHERE id=$id";
         
-        $db->query($sql);
+//         $db->query($sql);
         
-        return true;
+//         return true;
     
-    }
-}
+//     }
+// }
