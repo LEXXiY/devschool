@@ -70,14 +70,14 @@ function insertToDb($arr, $db){
     return true;
 }
 
-// function selectById($id = NULL, $db){
+function selectById($id, $db){
     
-//     $sql = "SELECT * FROM `ads` WHERE id=$id";
+    $sql = "SELECT * FROM `ads` WHERE id=$id";
     
-//     $result = $db->query($sql);
+    $result = $db->query($sql);
     
-//     return $result->fetch_assoc();
-// }
+    return $result->fetch_assoc();
+}
 
 function selectAll($db){
     
@@ -96,17 +96,15 @@ function selectAll($db){
     
 // }
 
-// function deleteFromDb($id){
+function deleteFromDb($id, $db){
     
-//     global $db;
+    if(is_numeric($id)){
     
-//     if(is_numeric($id)){
-    
-//         $sql = "DELETE FROM `ads` WHERE id=$id";
+        $sql = "DELETE FROM `ads` WHERE id=$id";
         
-//         $db->query($sql);
+        $db->query($sql);
         
-//         return true;
+        return true;
     
-//     }
-// }
+    }
+}

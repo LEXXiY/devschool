@@ -28,8 +28,6 @@ foreach($categories as $group=>$single_cat){
     $all_category[$group] = $single_cat;
 }
 
-// $data = readData($db);
-
 if( !empty($_POST) ) {
 
     $id = (isset($_POST['id'])) ? $_POST['id'] : '';
@@ -47,7 +45,7 @@ if( !empty($_POST) ) {
 
 } elseif( isset($_GET['del']) ){
 
-    deleteFromDb($_GET['del'], $db);
+    deleteFromDb((int)$_GET['del'], $db);
 
 } elseif( isset($_GET['edit']) && !isset($_GET['action']) ){
     
@@ -63,12 +61,6 @@ if(!isset($formParam)){
 }
 
 $ads = selectAll($db);
-
-// for ($i=0;$i<count($ads);$i++) {
-//     $allads[array_shift($ads)]=$ads;
-// }
-
-// saveData($data, $db);
 
 $smarty->assign("cities", $cities);
 $smarty->assign("categories", $all_category); // assoc array group => array
