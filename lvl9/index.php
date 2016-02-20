@@ -7,6 +7,7 @@
 
 require './libs/Smarty.class.php';
 require './fields.php';
+require './models.php';
 require './helpers.php';
 
 error_reporting(E_ERROR | E_NOTICE | E_PARSE | E_WARNING);
@@ -62,6 +63,8 @@ if(!isset($formParam)){
     
     $formParam = prepareAd();
 }
+
+$cities = get_cities($db);
 
 $smarty->assign("cities", $cities);
 $smarty->assign("categories", $all_category); // assoc array group => array
