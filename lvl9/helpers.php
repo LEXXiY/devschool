@@ -37,28 +37,6 @@ function prepareAd($data = null){
     );
 }
 
-// function readData($db){
-    
-//     $result = $db->query("SELECT * FROM `cities`");
-    
-//     $result->fetch_assoc();
-    
-//     return $result;
-    
-// }
-
-// function saveData($array, $db){
-    
-//     if (empty($array)) return;
-    
-//     $values = implode(',', $array);
-    
-//     $sql = "INSERT INTO `ads` VALUES ($values)";
-    
-//     $db->query($sql);
-    
-// }
-
 function insertToDb($arr, $db){
     
     $values = implode('","', $arr);
@@ -68,6 +46,27 @@ function insertToDb($arr, $db){
     $result = $db->query($sql);
     
     return true;
+}
+
+function updateInDb($id, $data, $db){
+    
+    $sql = "UPDATE ads SET ";
+    $sql .= "forma=" . $data['forma'];
+    $sql .= ",seller_name=\"" . $data['seller_name'] . "\"";
+    $sql .= ",email=\"" . $data['email'] . "\"";
+    $sql .= ",newsletter=" . $data['newsletter'];
+    $sql .= ",phone=\"" . $data['phone'] . "\"";
+    $sql .= ",location_id=" . $data['location_id'];
+    $sql .= ",category_id=" . $data['category_id'];
+    $sql .= ",title=\"" . $data['title'] . "\"";
+    $sql .= ",description=\"" . $data['description'] . "\"";
+    $sql .= ",price=" . $data['price'] . " ";
+    $sql .= "WHERE id=$id";
+    
+    $result = $db->query($sql);
+    
+    return true;
+    
 }
 
 function selectById($id, $db){
@@ -91,10 +90,6 @@ function selectAll($db){
     
     return $arr;
 }
-
-// function updateInDb($id){
-    
-// }
 
 function deleteFromDb($id, $db){
     

@@ -28,13 +28,16 @@ foreach($categories as $group=>$single_cat){
     $all_category[$group] = $single_cat;
 }
 
+$ads = selectAll($db);
+
 if( !empty($_POST) ) {
 
     $id = (isset($_POST['id'])) ? $_POST['id'] : '';
 
-    if( isset($_GET['action']) && $_GET['action']=='update' && isset($data[$id]) ){
+    if( isset($_GET['action']) && $_GET['action']=='update' && isset($ads[$id]) ){
 
-        $data[$id] = $_POST;
+        $data = prepareAd($_POST);
+        updateInDb($id, $data, $db);
 
     } else {
 
@@ -49,9 +52,9 @@ if( !empty($_POST) ) {
 
 } elseif( isset($_GET['edit']) && !isset($_GET['action']) ){
     
-    // $data = selectById($_GET['edit'], $db);
+    $data = selectById($_GET['edit'], $db);
 
-    // $formParam = prepareAd($data);
+    $formParam = prepareAd($data);
 
 }
 
@@ -59,8 +62,6 @@ if(!isset($formParam)){
     
     $formParam = prepareAd();
 }
-
-$ads = selectAll($db);
 
 $smarty->assign("cities", $cities);
 $smarty->assign("categories", $all_category); // assoc array group => array
