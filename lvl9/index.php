@@ -23,12 +23,6 @@ $smarty->compile_dir = './templates_c/';
 $smarty->config_dir = './configs/';
 $smarty->cache_dir = './cache/';
 
-$all_category = [];
-
-foreach($categories as $group=>$single_cat){
-    $all_category[$group] = $single_cat;
-}
-
 $ads = selectAll($db);
 
 if( !empty($_POST) ) {
@@ -65,9 +59,10 @@ if(!isset($formParam)){
 }
 
 $cities = get_cities($db);
+$categories = get_categories($db);
 
 $smarty->assign("cities", $cities);
-$smarty->assign("categories", $all_category); // assoc array group => array
+$smarty->assign("categories", $categories); // assoc array group => array
 $smarty->assign("formParam", $formParam);
 $smarty->assign("allads", $ads);
 

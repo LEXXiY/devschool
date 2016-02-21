@@ -16,6 +16,27 @@ function get_cities($db){
 
 function get_categories($db){
     
+    $sql = "SELECT * FROM categories";
+    
+    $result = $db->query($sql);
+    
+    $options = array();
+    
+    $maincat = array();
+    
+    while ($row = $result->fetch_assoc()){
+        
+        if ($row['parent'] === NULL) {
+            $options[$row['cat_name']] = array();
+            $maincat[$row['cat_id']] = $row['cat_name'];
+        } elseif (array_key_exists($row['parent'],$maincat)){
+            $options[$maincat[$row['parent']]][$row['cat_id']] = $row['cat_name'];
+        }
+
+    }
+
+    return $options;
+    
 }
 
 function insertToDb($arr, $db){
