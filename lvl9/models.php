@@ -1,6 +1,8 @@
 <?php
 
-function get_cities($db){
+function get_cities(){
+    
+    global $db;
 
     $sql = "SELECT * FROM cities";
     
@@ -14,7 +16,9 @@ function get_cities($db){
 
 }
 
-function get_categories($db){
+function get_categories(){
+    
+    global $db;
     
     $sql = "SELECT * FROM categories";
     
@@ -39,7 +43,9 @@ function get_categories($db){
     
 }
 
-function insertToDb($arr, $db){
+function insertToDb($arr){
+    
+    global $db;
     
     $values = implode('","', $arr);
     
@@ -50,7 +56,9 @@ function insertToDb($arr, $db){
     return true;
 }
 
-function updateInDb($id, $data, $db){
+function updateInDb($id, $data){
+    
+    global $db;
     
     $sql = "UPDATE ads SET ";
     $sql .= "forma=" . $data['forma'];
@@ -71,7 +79,9 @@ function updateInDb($id, $data, $db){
     
 }
 
-function selectById($id, $db){
+function selectById($id){
+    
+    global $db;
     
     $sql = "SELECT * FROM `ads` WHERE id=$id";
     
@@ -80,7 +90,11 @@ function selectById($id, $db){
     return $result->fetch_assoc();
 }
 
-function selectAll($db){
+function selectAll(){
+    
+    global $db;
+    
+    $arr=array();
     
     $sql = "SELECT * FROM `ads`";
     
@@ -94,6 +108,8 @@ function selectAll($db){
 }
 
 function deleteFromDb($id, $db){
+    
+    global $db;
     
     if(is_numeric($id)){
     

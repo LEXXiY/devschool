@@ -5,25 +5,9 @@
  * @package Example-application
  */
 
-require './libs/Smarty.class.php';
-require './fields.php';
-require './models.php';
-require './helpers.php';
+require './settings.php';
 
-error_reporting(E_ERROR | E_NOTICE | E_PARSE | E_WARNING);
-ini_set('display_errors', 1);
-
-$smarty = new Smarty();
-
-// $smarty->force_compile = true;
-$smarty->debugging = true;
-
-$smarty->template_dir = './templates/';
-$smarty->compile_dir = './templates_c/';
-$smarty->config_dir = './configs/';
-$smarty->cache_dir = './cache/';
-
-$ads = selectAll($db);
+$ads = selectAll();
 
 if( !empty($_POST) ) {
 
@@ -31,35 +15,35 @@ if( !empty($_POST) ) {
 
     if( isset($_GET['action']) && $_GET['action']=='update' && isset($ads[$id]) ){
 
-        $data = prepareAd($_POST);
-        updateInDb($id, $data, $db);
+        $data = prepareData($_POST);
+        updateInDb($id, $data);
 
     } else {
 
-        $data = prepareAd($_POST);
-        insertToDb($data, $db);
+        $data = prepareData($_POST);
+        insertToDb($data);
 
     }
 
 } elseif( isset($_GET['del']) ){
 
-    deleteFromDb((int)$_GET['del'], $db);
+    deleteFromDb((int)$_GET['del']);
 
 } elseif( isset($_GET['edit']) && !isset($_GET['action']) ){
     
-    $data = selectById($_GET['edit'], $db);
+    $data = selectById($_GET['edit']);
 
-    $formParam = prepareAd($data);
+    $formParam = prepareData($data);
 
 }
 
 if(!isset($formParam)){
     
-    $formParam = prepareAd();
+    $formParam = prepareData();
 }
 
-$cities = get_cities($db);
-$categories = get_categories($db);
+$cities = get_cities();
+$categories = get_categories();
 
 $smarty->assign("cities", $cities);
 $smarty->assign("categories", $categories); // assoc array group => array
