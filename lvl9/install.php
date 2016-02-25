@@ -6,7 +6,7 @@
  * Time: 9:11
  */
  
- error_reporting(E_ERROR | E_NOTICE | E_PARSE | E_WARNING);
+error_reporting(E_ERROR | E_NOTICE | E_PARSE | E_WARNING);
 ini_set('display_errors', 1);
  
  if($_POST){
@@ -24,16 +24,16 @@ ini_set('display_errors', 1);
         die("Connection failed: " . $db->connect_error);
     }
     
-    function dropBase(){
+    // function dropBase(){
         
-        global $db;
+    //     global $db;
         
-        $sql = "DROP TABLE IF EXISTS `ads`, `cities`, `categories`";
+    //     $sql = "DROP TABLE IF EXISTS `ads`, `cities`, `categories`";
     
-        $result = $db->query($sql);
+    //     $result = $db->query($sql);
         
-    }
-    dropBase();
+    // }
+    // dropBase();
     
     function successInstall(){
         
@@ -53,16 +53,16 @@ ini_set('display_errors', 1);
         global $db;
         
         $sql = file_get_contents("dump.sql");
+        
+        $queries = explode(';', $sql);
 
-        if($result = $db->query($sql)) {
-            successInstall();
-            return true;
-        } else {
-            echo $db->error;
+        for ($i=0;$i<count($queries);$i++){
+            $db->query($queries[$i]);
         }
+        
+        successInstall();
     }
     createTable();
-    
 }
     ?>
     <h1>Установка avito 2.0 на ваш сервер</h1>

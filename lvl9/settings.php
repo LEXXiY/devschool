@@ -1,8 +1,10 @@
 <?php
 require './libs/Smarty.class.php';
-require './fields.php';
+// require './fields.php';
+require './connect.php';
 require './models.php';
 require './helpers.php';
+
 
 error_reporting(E_ERROR | E_NOTICE | E_PARSE | E_WARNING);
 ini_set('display_errors', 1);
