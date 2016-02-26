@@ -7,8 +7,6 @@
 
 require './settings.php';
 
-$ads = selectAll();
-
 if( !empty($_POST) ) {
 
     $id = (isset($_POST['id'])) ? $_POST['id'] : '';
@@ -45,10 +43,11 @@ if(!isset($formParam)){
 $cities = get_cities();
 $categories = get_categories();
 
+$ads = selectAll();
+
 $smarty->assign("cities", $cities);
 $smarty->assign("categories", $categories); // assoc array group => array
 $smarty->assign("formParam", $formParam);
 $smarty->assign("allads", $ads);
-
 
 $smarty->display('index.tpl'); 

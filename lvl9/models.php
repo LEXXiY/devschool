@@ -1,5 +1,5 @@
 <?php
-if ($db){
+
 function get_cities(){
     
     global $db;
@@ -98,7 +98,7 @@ function selectAll(){
     
     $sql = "SELECT * FROM `ads`";
     
-    if(isset($db) && $result = $db->query($sql)){
+    if($result = $db->query($sql)){
     
         while ($row = $result->fetch_assoc()){
             $arr[$row['id']]=$row;
@@ -121,5 +121,4 @@ function deleteFromDb($id){
         return true;
     
     }
-}
 }
