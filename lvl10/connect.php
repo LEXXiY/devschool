@@ -10,14 +10,25 @@ if (file_exists($filename)) {
     $database = $file[3];
     $dbport = 3306;
     
+    // Подключаем библиотеку.
+    require_once "./dbsimple/config.php";
+    require_once "./dbsimple/DbSimple/Generic.php";
+    // Устанавливаем соединение.
+    $link = "mysqli://" . $file[1] . ":" . $file[2] . "@" . $file[0] . "/" . $file[3];
+    $db = DbSimple_Generic::connect($link);
     
-// Create connection
-    $db = new mysqli($servername, $username, $password, $database, $dbport);
-    $db->set_charset("utf8");
+    $db->setErrorHandler('databaseErrorHandler');
 
-    // Check connection
-    if ($db->connect_error) {
-        die("Connection failed: " . $db->connect_error);
+    // Код обработчика ошибок SQL.
+    function databaseErrorHandler($message, $info)
+    {
+        // Если использовалась @, ничего не делать.
+        if (!error_reporting()) return;
+        // Выводим подробную информацию об ошибке.
+        echo "SQL Error: $message<br><pre>"; 
+        print_r($info);
+        echo "</pre>";
+        exit();
     }
     
 } else {

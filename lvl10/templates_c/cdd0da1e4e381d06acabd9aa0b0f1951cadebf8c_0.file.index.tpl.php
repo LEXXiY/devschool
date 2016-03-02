@@ -1,16 +1,16 @@
 <?php
-/* Smarty version 3.1.30-dev/28, created on 2016-02-17 18:44:54
-  from "/home/ubuntu/workspace/lvl9/templates/index.tpl" */
+/* Smarty version 3.1.30-dev/28, created on 2016-03-01 11:12:30
+  from "/home/ubuntu/workspace/lvl10/templates/index.tpl" */
 
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.30-dev/28',
-  'unifunc' => 'content_56c4bfa62e9f09_51233351',
+  'unifunc' => 'content_56d5791e6bd1f6_31723029',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
-    'e3360285d412a1c7b2f01b43fe88b40e1ea6f8c0' => 
+    'cdd0da1e4e381d06acabd9aa0b0f1951cadebf8c' => 
     array (
-      0 => '/home/ubuntu/workspace/lvl9/templates/index.tpl',
+      0 => '/home/ubuntu/workspace/lvl10/templates/index.tpl',
       1 => 1455734151,
       2 => 'file',
     ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
     'file:form.tpl' => 1,
   ),
 ),false)) {
-function content_56c4bfa62e9f09_51233351 ($_smarty_tpl) {
+function content_56d5791e6bd1f6_31723029 ($_smarty_tpl) {
 ?>
 <!doctype html>
 <html lang="en">

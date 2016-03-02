@@ -4,15 +4,9 @@ function get_cities(){
     
     global $db;
 
-    $sql = "SELECT * FROM cities";
+    $result = $db->selectCol("SELECT city_id AS ARRAY_KEY, city FROM cities");
     
-    $result = $db->query($sql);
-    
-    while ($row = $result->fetch_assoc()){
-        $arr[$row['city_id']]=$row['city'];
-    }
-    
-    return $arr;
+    return $result;
 
 }
 
@@ -20,26 +14,24 @@ function get_categories(){
     
     global $db;
     
-    $sql = "SELECT * FROM categories";
-    
-    $result = $db->query($sql);
+    $result = $db->select('SELECT *, cat_id AS ARRAY_KEY FROM categories');
     
     $options = array();
     
     $maincat = array();
     
-    while ($row = $result->fetch_assoc()){
+    foreach ($result as $value){
         
-        if ($row['parent'] === NULL) {
-            $options[$row['cat_name']] = array();
-            $maincat[$row['cat_id']] = $row['cat_name'];
-        } elseif (array_key_exists($row['parent'],$maincat)){
-            $options[$maincat[$row['parent']]][$row['cat_id']] = $row['cat_name'];
+        if ($value['parent'] === NULL) {
+            $options[$value['cat_name']] = array();
+            $maincat[$value['cat_id']] = $value['cat_name'];
+        } elseif (array_key_exists($value['parent'],$maincat)){
+            $options[$maincat[$value['parent']]][$value['cat_id']] = $value['cat_name'];
         }
 
     }
 
-    return $options;
+   return $options;
     
 }
 
@@ -47,35 +39,15 @@ function insertToDb($arr){
     
     global $db;
     
-    $values = implode('","', $arr);
-    
-    $sql = "INSERT INTO ads (`forma`, `seller_name`, `email`, `newsletter`, `phone`, `location_id`, `category_id`, `title`, `description`, `price`) VALUES (\"".$values."\")";
-    
-    $result = $db->query($sql);
-    
-    return true;
+    $db->query('INSERT INTO ads SET ?a', $arr);
+
 }
 
 function updateInDb($id, $data){
     
     global $db;
     
-    $sql = "UPDATE ads SET ";
-    $sql .= "forma=" . $data['forma'];
-    $sql .= ",seller_name=\"" . $data['seller_name'] . "\"";
-    $sql .= ",email=\"" . $data['email'] . "\"";
-    $sql .= ",newsletter=" . $data['newsletter'];
-    $sql .= ",phone=\"" . $data['phone'] . "\"";
-    $sql .= ",location_id=" . $data['location_id'];
-    $sql .= ",category_id=" . $data['category_id'];
-    $sql .= ",title=\"" . $data['title'] . "\"";
-    $sql .= ",description=\"" . $data['description'] . "\"";
-    $sql .= ",price=" . $data['price'] . " ";
-    $sql .= "WHERE id=$id";
-    
-    $result = $db->query($sql);
-    
-    return true;
+    $db->query('UPDATE ads SET ?a WHERE id=?d', $data, $id);
     
 }
 
@@ -83,42 +55,24 @@ function selectById($id){
     
     global $db;
     
-    $sql = "SELECT * FROM `ads` WHERE id=$id";
+    $result = $db->selectRow("SELECT * FROM `ads` WHERE id=?d", $id);
     
-    $result = $db->query($sql);
-    
-    return $result->fetch_assoc();
+    return $result;
 }
 
 function selectAll(){
     
     global $db;
     
-    $arr=array();
+    $result = $db->select("SELECT *, id AS ARRAY_KEY FROM `ads`");
     
-    $sql = "SELECT * FROM `ads`";
-    
-    if($result = $db->query($sql)){
-    
-        while ($row = $result->fetch_assoc()){
-            $arr[$row['id']]=$row;
-        }
-    }
-    
-    return $arr;
+    return $result;
 }
 
 function deleteFromDb($id){
     
     global $db;
-    
-    if(is_numeric($id)){
-    
-        $sql = "DELETE FROM `ads` WHERE id=$id";
         
-        $db->query($sql);
-        
-        return true;
-    
-    }
+    $db->query('DELETE FROM `ads` WHERE id=?d', $id);
+
 }

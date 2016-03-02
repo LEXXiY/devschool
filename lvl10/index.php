@@ -10,8 +10,9 @@ require './settings.php';
 if( !empty($_POST) ) {
 
     $id = (isset($_POST['id'])) ? $_POST['id'] : '';
+    $currads = selectAll();
 
-    if( isset($_GET['action']) && $_GET['action']=='update' && isset($ads[$id]) ){
+    if( isset($_GET['action']) && $_GET['action']=='update' && isset($currads[$id]) ){
 
         $data = prepareData($_POST);
         updateInDb($id, $data);
