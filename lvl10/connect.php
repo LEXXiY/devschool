@@ -13,6 +13,20 @@ if (file_exists($filename)) {
     // Подключаем библиотеку.
     require_once "./dbsimple/config.php";
     require_once "./dbsimple/DbSimple/Generic.php";
+    
+    require_once "./firephp/FirePHP.class.php";
+    
+    $firephp = FirePHP::getInstance(true);
+    
+    $firephp->setEnabled(true);
+    
+    $myArray = array(
+        'name'=>'Alexey',
+        'age'=>31
+    );
+    
+    $firephp->log($myArray);
+    
     // Устанавливаем соединение.
     $link = "mysqli://" . $file[1] . ":" . $file[2] . "@" . $file[0] . "/" . $file[3];
     $db = DbSimple_Generic::connect($link);
