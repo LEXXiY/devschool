@@ -1,19 +1,19 @@
 <?php
-require './libs/Smarty.class.php';
-require './connect.php';
-require './models.php';
-require './helpers.php';
+    
+    $project_root = __DIR__;
+    $smarty_dir = $project_root.'/smarty/';
+    
+    // put full path to Smarty.class.php
+    require_once ($smarty_dir.'libs/Smarty.class.php');
+    $smarty = new Smarty();
+    $smarty->compile_check = true;
+    $smarty->debugging = FALSE;
 
-
-error_reporting(E_ERROR | E_NOTICE | E_PARSE | E_WARNING);
-ini_set('display_errors', 1);
-
-$smarty = new Smarty();
-
-// $smarty->force_compile = true;
-$smarty->debugging = false;
-
-$smarty->template_dir = './templates/';
-$smarty->compile_dir = './templates_c/';
-$smarty->config_dir = './configs/';
-$smarty->cache_dir = './cache/';
+    $smarty->template_dir = $smarty_dir.'templates/';
+    $smarty->compile_dir = $smarty_dir.'templates_c/';
+    $smarty->cache_dir = $smarty_dir.'cache/';
+    $smarty->config_dir = $smarty_dir.'configs/';
+  
+    $display = new adDisplay();
+    $sql = new adSql();
+?>

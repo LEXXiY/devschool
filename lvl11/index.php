@@ -1,54 +1,49 @@
 <?php
-/**
- * Board system like avito.ru
- *
- * @package Example-application
- */
-
-require './settings.php';
-
-if( !empty($_POST) ) {
-
-    $id = (isset($_POST['id'])) ? $_POST['id'] : '';
-    $currads = selectAll();
-
-    if( isset($_GET['action']) && $_GET['action']=='update' && isset($currads[$id]) ){
-
-        $data = prepareData($_POST);
-        updateInDb($id, $data);
-
-    } else {
-
-        $data = prepareData($_POST);
-        insertToDb($data);
-
+    error_reporting(E_ERROR|E_WARNING|E_PARSE|E_NOTICE);
+    header("Content-Type: text/html; charset=utf-8");
+    require_once ("oop.php");                                   // подключаем функциями
+    require_once ("settings.php");                              // подключаем настройки smarty
+    require_once ("connect_mysql.php");                         // подключаем соединение с mysql
+    
+    if (isset($_POST['confirm_add'])){                          // если нажата кнопка добавить/сохранить
+        if (is_numeric($_POST['id_r'])){                        // если присутствует метка id_r то сохраняем редактируемое объявление
+            $sql->editAd($db, new ad($_POST));
+        }
+        else { 
+           $sql->addAd($db, new ad($_POST));                                 // иначе добавляем новое объявление
+        }
+    $display->restart();
     }
-
-} elseif( isset($_GET['del']) ){
-
-    deleteFromDb((int)$_GET['del']);
-
-} elseif( isset($_GET['edit']) && !isset($_GET['action']) ){
     
-    $data = selectById($_GET['edit']);
-
-    $formParam = prepareData($data);
-
-}
-
-if(!isset($formParam)){
+    elseif (isset($_POST['clear_form'])||isset($_GET['back'])){  // кнопки очистить форму и назад вызывают restart();
+        $display->restart();
+    }
     
-    $formParam = prepareData();
-}
-
-$cities = get_cities();
-$categories = get_categories();
-
-$ads = selectAll();
-
-$smarty->assign("cities", $cities);
-$smarty->assign("categories", $categories); // assoc array group => array
-$smarty->assign("formParam", $formParam);
-$smarty->assign("allads", $ads);
-
-$smarty->display('index.tpl'); 
+    elseif (isset ($_POST['clear_base'])) {                     // по кнопке очистить базу, удаляем все строки из таблицы ads
+        $sql->clearDB($db);
+        $display->restart();
+    }
+    
+    elseif (isset($_GET['del_ad'])){                        // ловим ключ del_ad в массиве $_GET - нажата ссылка Удалить
+        if ($sql->getAd($db, (int)($_GET['del_ad']))){             // если существует объявление с таким ключом удаляем его
+            $sql->delAd($db, (int)($_GET['del_ad']));
+            $display->restart();
+        }
+        else{                                               // иначе выводим ошибку
+            $display->error();   
+        }
+    }
+    
+    elseif (isset($_GET['click_id'])){                      // действие по клику на объявление
+        if ($sql->getAd($db, (int)($_GET['click_id']))){           // если объявление с запрашиваемым номером существует
+            $display->displayForm($db, $smarty, $sql, (int)($_GET['click_id']));          // выводим объявление в форму
+        }
+        else {                                              // иначе выводим сообщение о его отсутствии
+            $display->error();
+        }
+    }
+    
+    else{
+        $display->displayForm($db, $smarty, $sql);
+    }
+?>
