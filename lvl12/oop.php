@@ -93,6 +93,23 @@ class ad{                                                   // класс для
 
 class adDisplay{                                                        // класс ответственный за вывод данных на экран
     
+    private $ads = array();
+    private static $instance = NULL;
+    
+    public static function instance(){
+        if (self::$instance == NULL) {
+            self::$instance = new adDisplay();
+        } 
+        return self::$instance;
+        
+    }
+    
+    function __construct(){
+        
+    }
+    
+    
+    
     function displayForm($db, $smarty, $sql, $display_id = NULL){       // функция вывода формы
         if ($display_id) {
             $ad = $sql->getAd($db, $display_id);
