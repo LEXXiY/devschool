@@ -1,5 +1,6 @@
 <?php
 $filename = "config.json";
+
 if (file_exists($filename)) {
     
     $file = unserialize(file_get_contents('config.json'));
@@ -7,8 +8,6 @@ if (file_exists($filename)) {
     
     require_once $project_root.'/dbsimple/config.php';
     require_once $project_root.'/dbsimple/dbsimple/Generic.php';
-    
-    $db = DbSimple_Generic::connect($link); //здесь нужно прописать параметры доступа к бд
 
     // Устанавливаем обработчик ошибок.
     $db->setErrorHandler('databaseErrorHandler');
@@ -22,26 +21,9 @@ if (file_exists($filename)) {
         echo "</pre>";
         exit();
     }
-    
         
     require_once ($project_root.'/FirePHPCore/FirePHP.class.php');
-    // инициализируем класс FirePHP
-    $firePHP = FirePHP::getInstance(TRUE);
-    // устанавливаем активность
-    $firePHP ->setEnabled(true);
-    
-    $db->setLogger('myLogger');
-    
-    function myLogger($db, $sql, $caller){
-        global $firePHP;
-        if (isset($caller['file'])){
-            $firePHP->group('at '.@$caller['file'].' line '.@$caller['line']);
-        }
-        $firePHP->log($sql);
-        if (isset($caller['file'])){
-        $firePHP->groupEnd();
-        }
-    }
+   
 } else {
     echo "Данные подключения к базе не найдены, перейдите к <a href='install.php'>файлу установки</a>";
 }

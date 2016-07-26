@@ -1,4 +1,29 @@
 <?php
+class mydb {
+    private $db;
+    private $config;
+    private static $instance = NULL;
+    
+    public static function getInstance(){
+        if (self::$instance == NULL) {
+            self::$instance = new self();
+        } 
+        return self::$instance;
+        
+    }
+    
+    private function __construct(){}
+    
+    public function getDb(){
+        return $this->db;
+    }
+    
+    public function setConfig($link){
+        $this->config = $link;
+        $this->db = DbSimple_Generic::connect($this->config);
+    }
+}
+
 class ad{                                                   // класс для хранения данных об объявлении
     protected $id;
 
@@ -34,6 +59,8 @@ class ad{                                                   // класс для
         if (isset($ad['id_r'])){
             $this->id_r = $ad['id_r'];
         }
+        
+        return getArray();
     }
     
     public function getArray(){
@@ -96,19 +123,13 @@ class adDisplay{                                                        // кл�
     private $ads = array();
     private static $instance = NULL;
     
-    public static function instance(){
+    public static function getInstance(){
         if (self::$instance == NULL) {
-            self::$instance = new adDisplay();
+            self::$instance = new self();
         } 
         return self::$instance;
         
     }
-    
-    function __construct(){
-        
-    }
-    
-    
     
     function displayForm($db, $smarty, $sql, $display_id = NULL){       // функция вывода формы
         if ($display_id) {
@@ -138,10 +159,14 @@ class adDisplay{                                                        // кл�
 
 class adSql{                                                            // класс ответственный за взаимодействие с базой данных
 
-    // вместо точек вставьте нужный код!!!!!!!!
+    private $db;
+
+    function __construct($db){
+        $this->db = $db;
+    }
     
     function addAd($db, ad $ad){                                       // функция добавления объявления в БД
-        $db->query('INSERT INTO ads(?#) VALUES(?a)', array_keys($ad->getArray()), array_values($ad->getArray()));
+        $this->db->query('INSERT INTO ads(?#) VALUES(?a)', array_keys($ad->getArray()), array_values($ad->getArray()));
     }
     
     function editAd($db, ad $ad){                                      // функция редактирования объявления
