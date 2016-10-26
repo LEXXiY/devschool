@@ -166,6 +166,10 @@ class adCollection {
         
     }
     
+    public function insertAdd($ad){
+        $this->ads[$ad['id']]=$ad;
+    }
+    
     public function getAdd($id){
         return $this->ads[$id];
     }
@@ -202,10 +206,10 @@ class adSql{                                                            // кл�
     function getAds($db){                                                  // возвращает все объявления из базы
         $ads = $db->select('SELECT *, id AS ARRAY_KEY FROM `ads`');
         $ads_array = array();
+        $adCollection = adCollection::getInstance();
         foreach ($ads as $value){
-            $ads_array[] = new ad($value);
+            $adCollection->insertAdd(new ad($value));
         }
-        return $ads_array;
     }
      
     function getCities($db){                                                // возвращает список городов для селектора
