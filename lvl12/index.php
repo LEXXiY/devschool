@@ -1,9 +1,11 @@
 <?php
     error_reporting(E_ERROR|E_WARNING|E_PARSE|E_NOTICE);
     header("Content-Type: text/html; charset=utf-8");
+    $project_root = __DIR__;
     require_once ("oop.php");                                   // подключаем функциями
-    require_once ("settings.php");                              // подключаем настройки smarty
     require_once ("connect_mysql.php");                         // подключаем соединение с mysql
+    require_once ("settings.php");                              // подключаем настройки smarty
+    
     
     if (isset($_POST['confirm_add'])){                          // если нажата кнопка добавить/сохранить
         if (is_numeric($_POST['id_r'])){                        // если присутствует метка id_r то сохраняем редактируемое объявление

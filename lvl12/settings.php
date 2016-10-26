@@ -1,6 +1,5 @@
 <?php
     
-    $project_root = __DIR__;
     $smarty_dir = $project_root.'/smarty/';
     
     // put full path to Smarty.class.php

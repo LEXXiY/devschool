@@ -8,19 +8,23 @@ if (file_exists($filename)) {
     
     require_once $project_root.'/dbsimple/config.php';
     require_once $project_root.'/dbsimple/dbsimple/Generic.php';
-
-    // Устанавливаем обработчик ошибок.
-    $db->setErrorHandler('databaseErrorHandler');
-    // Код обработчика ошибок SQL.
-    function databaseErrorHandler($message, $info){
-        // Если использовалась @, ничего не делать.
-        if (!error_reporting()) return;
-        // Выводим подробную информацию об ошибке.
-        echo "SQL Error: $message<br><pre>"; 
-        print_r($info);
-        echo "</pre>";
-        exit();
-    }
+    
+    $mysql = mydb::getInstance();
+    $mysql->setConfig($link);
+    $db = $mysql->getDb();
+    
+    // // Устанавливаем обработчик ошибок.
+    // $db->setErrorHandler('databaseErrorHandler');
+    // // Код обработчика ошибок SQL.
+    // function databaseErrorHandler($message, $info){
+    //     // Если использовалась @, ничего не делать.
+    //     if (!error_reporting()) return;
+    //     // Выводим подробную информацию об ошибке.
+    //     echo "SQL Error: $message<br><pre>"; 
+    //     print_r($info);
+    //     echo "</pre>";
+    //     exit();
+    // }
         
     require_once ($project_root.'/FirePHPCore/FirePHP.class.php');
    

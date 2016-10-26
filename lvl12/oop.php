@@ -1,5 +1,5 @@
 <?php
-class mydb {
+class mydb { //класс сингтон для работы с базой данных
     private $db;
     private $config;
     private static $instance = NULL;
@@ -7,7 +7,7 @@ class mydb {
     public static function getInstance(){
         if (self::$instance == NULL) {
             self::$instance = new self();
-        } 
+        }
         return self::$instance;
         
     }
@@ -59,8 +59,6 @@ class ad{                                                   // класс для
         if (isset($ad['id_r'])){
             $this->id_r = $ad['id_r'];
         }
-        
-        return getArray();
     }
     
     public function getArray(){
@@ -118,9 +116,8 @@ class ad{                                                   // класс для
     }
 }
 
-class adDisplay{                                                        // класс ответственный за вывод данных на экран
+class adDisplay{                                                       // класс ответственный за вывод данных на экран
     
-    private $ads = array();
     private static $instance = NULL;
     
     public static function getInstance(){
@@ -155,6 +152,27 @@ class adDisplay{                                                        // кл�
         exit();
     }
     
+}
+
+class adCollection {
+    private $ads = array();
+    private static $instance = NULL;
+    
+    public static function getInstance(){
+        if (self::$instance == NULL) {
+            self::$instance = new self();
+        } 
+        return self::$instance;
+        
+    }
+    
+    public function getAdd($id){
+        return $this->ads[$id];
+    }
+    
+    public function getAdds(){
+        return $this->ads;
+    }
 }
 
 class adSql{                                                            // класс ответственный за взаимодействие с базой данных
