@@ -14,5 +14,6 @@
     $smarty->config_dir = $smarty_dir.'configs/';
   
     $display = new adDisplay();
-    $sql = new adSql($db);
+    $sql = new adSql( mydb::getInstance() );
+    $collection = adCollection::getInstance();
 ?>

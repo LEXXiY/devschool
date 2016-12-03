@@ -118,25 +118,15 @@ class ad{                                                   // класс для
 
 class adDisplay{                                                       // класс ответственный за вывод данных на экран
     
-    private static $instance = NULL;
-    
-    public static function getInstance(){
-        if (self::$instance == NULL) {
-            self::$instance = new self();
-        } 
-        return self::$instance;
-        
-    }
-    
-    function displayForm($db, $smarty, $sql, $display_id = NULL){       // функция вывода формы
+    function displayForm($db, $smarty, $sql, $collection, $display_id = NULL){       // функция вывода формы
         if ($display_id) {
-            $ad = $sql->getAd($db, $display_id);
+            $ad = $collection->getAdd($display_id);
         }
         else{
             $ad = NULL;
         }
         $smarty->assign('display', new ad($ad));
-        $smarty->assign('ads', $sql->getAds($db));
+        $smarty->assign('ads', $collection->getAdds());
         $smarty->assign('cities', $sql->getCities($db));
         $smarty->assign('categories', $sql->getCategories($db));
         $smarty->display('form_ad.tpl');
@@ -167,7 +157,7 @@ class adCollection {
     }
     
     public function insertAdd($ad){
-        $this->ads[$ad['id']]=$ad;
+        $this->ads[] = $ad;
     }
     
     public function getAdd($id){
@@ -176,6 +166,10 @@ class adCollection {
     
     public function getAdds(){
         return $this->ads;
+    }
+    
+    public function delAdd($del_id){
+        unset($ads[$del_id]);
     }
 }
 
@@ -188,7 +182,7 @@ class adSql{                                                            // кл�
     }
     
     function addAd($db, ad $ad){                                       // функция добавления объявления в БД
-        $this->db->query('INSERT INTO ads(?#) VALUES(?a)', array_keys($ad->getArray()), array_values($ad->getArray()));
+        $db->query('INSERT INTO ads(?#) VALUES(?a)', array_keys($ad->getArray()), array_values($ad->getArray()));
     }
     
     function editAd($db, ad $ad){                                      // функция редактирования объявления
